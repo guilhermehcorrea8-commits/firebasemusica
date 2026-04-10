@@ -1,13 +1,29 @@
 const audio = new Audio();
 
-export function tocarMusica(url) {
+export function tocar(url, nome) {
   audio.src = url;
   audio.play();
 
-  setInterval(() => {
-    if (!audio.duration) return;
+  document.getElementById("infoMusica").innerText = nome;
+}
 
-    const p = (audio.currentTime / audio.duration) * 100;
-    document.getElementById("barraPlayer").style.width = p + "%";
-  }, 200);
+export function play() {
+  audio.play();
+}
+
+export function pause() {
+  audio.pause();
+}
+
+export function barra() {
+  const barra = document.getElementById("barraPlayer");
+
+  function atualizar() {
+    if (audio.duration) {
+      barra.style.width = (audio.currentTime / audio.duration) * 100 + "%";
+    }
+    requestAnimationFrame(atualizar);
+  }
+
+  atualizar();
 }

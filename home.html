@@ -2,23 +2,27 @@
 <html lang="pt">
 <head>
   <meta charset="UTF-8">
-  <title>Home</title>
+  <title>Two Peice Music</title>
   <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
 
-<h1>🎵 Meu Hz Music</h1>
-
-<button id="logout">Sair</button>
-
-<input type="file" id="upload">
+<h1>🎧 Player</h1>
 
 <div id="lista"></div>
 
 <!-- PLAYER -->
 <div id="playerBox">
-  <div id="barraPlayer"></div>
+  <img id="capaMusica" src="" width="60">
+  <div id="infoMusica">Nenhuma música</div>
+
+  <button id="btnPlay">▶</button>
+  <button id="btnPause">⏸</button>
+
+  <div id="barra">
+    <div id="barraPlayer"></div>
+  </div>
 </div>
 
 <script type="module" src="./pages/home.js"></script>
