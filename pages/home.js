@@ -1,5 +1,4 @@
-import { db } from "../firebase/firebaseConfig.js";
-import { ref, get } from "https://www.gstatic.com/firebasejs/12.11.0/firebase-database.js";
+import { listarMusicas } from "../firebase/database.js";
 
 const lista = document.getElementById("lista");
 
@@ -7,13 +6,9 @@ const audio = new Audio();
 
 /* LISTAR */
 async function carregar() {
-  const snap = await get(ref(db, "musicas"));
-
-  if (!snap.exists()) return;
-
   lista.innerHTML = "";
 
-  const dados = snap.val();
+  const dados = await listarMusicas();
 
   for (let id in dados) {
     const m = dados[id];
@@ -22,8 +17,8 @@ async function carregar() {
     div.className = "musica";
 
     div.innerHTML = `
-      <img src="${m.capa}" width="50">
-      ${m.nome}
+      <img src="${m.capa}" class="thumb">
+      <span>${m.nome}</span>
       <button onclick="play('${m.url}', '${m.nome}', '${m.capa}')">▶</button>
     `;
 
@@ -37,12 +32,12 @@ window.play = (url, nome, capa) => {
   audio.play();
 
   document.getElementById("infoMusica").innerText = nome;
-  document.getElementById("capaMusica").src = capa;
+  document.getElementById("capaPlayer").src = capa;
 };
 
 /* CONTROLES */
-btnPlay.onclick = () => audio.play();
-btnPause.onclick = () => audio.pause();
+document.getElementById("btnPlay").onclick = () => audio.play();
+document.getElementById("btnPause").onclick = () => audio.pause();
 
 /* BARRA */
 setInterval(() => {

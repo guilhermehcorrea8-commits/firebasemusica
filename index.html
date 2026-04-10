@@ -2,23 +2,30 @@
 <html lang="pt">
 <head>
   <meta charset="UTF-8">
-  <title>Two Peice Music</title>
+  <title>Adicionar Música</title>
   <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
 
-<h1>➕ Adicionar Música</h1>
+<h1>🎶 Cadastrar Música</h1>
 
-<input id="nome" placeholder="Nome da música">
-<input id="url" placeholder="URL do MP3">
-<input id="capa" placeholder="URL da imagem">
+<div class="box">
+  <input id="nome" placeholder="Nome da música">
+  <input id="url" placeholder="URL do MP3">
+  <input id="capa" placeholder="URL da imagem">
 
-<button id="btnAdd">Salvar</button>
+  <button id="btnAdd" class="btn">Adicionar</button>
+  <button id="btnLimpar" class="btn-danger">Limpar</button>
 
-<a href="home.html" class="btn">Ir para player 🎧</a>
+  <br><br>
+
+  <a href="home.html" class="btn">Ir para Player</a>
+  <a href="login.html" class="btn-outline">Voltar</a>
+</div>
+
+<div id="lista"></div>
 
 <script type="module" src="./pages/index.js"></script>
-
 </body>
 </html>

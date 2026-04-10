@@ -5,33 +5,27 @@ body {
   color: white;
 }
 
-/* CENTRAL */
-.center {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
-}
-
-/* CARD */
-.card {
-  background: #181818;
-  padding: 30px;
-  border-radius: 12px;
+/* TITULO */
+h1 {
   text-align: center;
+  padding: 20px;
 }
 
-/* INPUT */
+/* FORM */
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 20px;
+}
+
 input {
-  display: block;
-  margin: 10px auto;
   padding: 10px;
-  width: 200px;
-  border-radius: 6px;
+  border-radius: 8px;
   border: none;
 }
 
-/* BOTÃO */
+/* BOTÕES */
 button, .btn {
   background: #1db954;
   border: none;
@@ -39,22 +33,33 @@ button, .btn {
   color: white;
   border-radius: 20px;
   cursor: pointer;
-  margin: 5px;
+  text-align: center;
+  text-decoration: none;
 }
 
-button:hover {
+button:hover, .btn:hover {
   background: #1ed760;
 }
 
 /* LISTA */
+#lista {
+  padding: 20px;
+}
+
 .musica {
-  background: rgba(255,255,255,0.05);
-  padding: 10px;
-  margin: 10px;
-  border-radius: 10px;
   display: flex;
   align-items: center;
   gap: 10px;
+  background: rgba(255,255,255,0.05);
+  padding: 10px;
+  margin-bottom: 10px;
+  border-radius: 10px;
+}
+
+.thumb {
+  width: 50px;
+  height: 50px;
+  border-radius: 8px;
 }
 
 /* PLAYER */
@@ -64,6 +69,11 @@ button:hover {
   width: 100%;
   background: #181818;
   padding: 10px;
+}
+
+#capaPlayer {
+  width: 60px;
+  height: 60px;
 }
 
 /* BARRA */

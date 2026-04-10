@@ -1,26 +1,71 @@
-import { db } from "../firebase/firebaseConfig.js";
-import { ref, push, set } from "https://www.gstatic.com/firebasejs/12.11.0/firebase-database.js";
+import {
+  salvarMusica,
+  listarMusicas,
+  limparMusicas,
+  curtirMusica
+} from "../firebase/database.js";
 
-const nome = document.getElementById("nome");
-const url = document.getElementById("url");
-const capa = document.getElementById("capa");
+const nomeInput = document.getElementById("nome");
+const urlInput = document.getElementById("url");
+const capaInput = document.getElementById("capa");
+const lista = document.getElementById("lista");
 
-btnAdd.onclick = async () => {
-  if (!nome.value || !url.value) return alert("Preencha tudo");
+const audio = new Audio();
 
-  const musicaRef = ref(db, "musicas");
+/* ADICIONAR */
+document.getElementById("btnAdd").onclick = async () => {
+  const nome = nomeInput.value;
+  const url = urlInput.value;
+  const capa = capaInput.value;
 
-  const nova = push(musicaRef);
+  if (!nome || !url || !capa) {
+    alert("Preencha tudo");
+    return;
+  }
 
-  await set(nova, {
-    nome: nome.value,
-    url: url.value,
-    capa: capa.value
-  });
+  await salvarMusica(nome, url, capa);
 
-  alert("Salvo!");
+  nomeInput.value = "";
+  urlInput.value = "";
+  capaInput.value = "";
 
-  nome.value = "";
-  url.value = "";
-  capa.value = "";
+  carregar();
 };
+
+/* LIMPAR INPUTS */
+document.getElementById("btnLimpar").onclick = () => {
+  nomeInput.value = "";
+  urlInput.value = "";
+  capaInput.value = "";
+};
+
+/* LISTAR */
+async function carregar() {
+  lista.innerHTML = "";
+
+  const dados = await listarMusicas();
+
+  for (let id in dados) {
+    const m = dados[id];
+
+    const div = document.createElement("div");
+    div.className = "musica";
+
+    div.innerHTML = `
+      <img src="${m.capa}" class="thumb">
+      <span>${m.nome}</span>
+      <button onclick="play('${m.url}', '${m.nome}')">▶</button>
+    `;
+
+    lista.appendChild(div);
+  }
+}
+
+/* PLAYER */
+window.play = (url, nome) => {
+  audio.src = url;
+  audio.play();
+  alert("Tocando: " + nome);
+};
+
+carregar();
