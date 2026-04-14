@@ -1,4 +1,5 @@
 import { auth } from "../firebase/firebaseConfig.js";
+
 import {
   signInWithEmailAndPassword,
   createUserWithEmailAndPassword,
@@ -9,19 +10,11 @@ const email = document.getElementById("email");
 const senha = document.getElementById("senha");
 
 document.getElementById("btnLogin").onclick = async () => {
-  try {
-    await signInWithEmailAndPassword(auth, email.value, senha.value);
-  } catch (e) {
-    alert(e.message);
-  }
+  await signInWithEmailAndPassword(auth, email.value, senha.value);
 };
 
 document.getElementById("btnRegister").onclick = async () => {
-  try {
-    await createUserWithEmailAndPassword(auth, email.value, senha.value);
-  } catch (e) {
-    alert(e.message);
-  }
+  await createUserWithEmailAndPassword(auth, email.value, senha.value);
 };
 
 onAuthStateChanged(auth, user => {

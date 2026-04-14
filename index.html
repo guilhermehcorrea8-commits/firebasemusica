@@ -2,7 +2,7 @@
 <html lang="pt">
 <head>
 <meta charset="UTF-8">
-<title>Cadastrar Música</title>
+<title>Two Peice</title>
 <link rel="stylesheet" href="style.css">
 </head>
 
@@ -12,8 +12,10 @@
 
 <div class="box">
   <input id="nome" placeholder="Nome">
-  <input id="url" placeholder="URL (MP3)">
+  <input id="url" placeholder="URL (MP3 ou YouTube)">
   <input id="capa" placeholder="URL da capa">
+
+  <input type="file" id="fileInput" accept="audio/*">
 
   <button id="btnAdd" class="btn">Adicionar</button>
   <button id="btnLimpar" class="btn-danger">Limpar</button>
@@ -21,7 +23,6 @@
   <br><br>
 
   <a href="home.html" class="btn">Ir para Player</a>
-  <a href="login.html" class="btn-outline">Voltar</a>
 </div>
 
 <div id="lista"></div>

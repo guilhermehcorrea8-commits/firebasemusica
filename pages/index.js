@@ -8,16 +8,27 @@ const nomeInput = document.getElementById("nome");
 const urlInput = document.getElementById("url");
 const capaInput = document.getElementById("capa");
 const lista = document.getElementById("lista");
+const fileInput = document.getElementById("fileInput");
 
+/* UPLOAD LOCAL */
+fileInput.addEventListener("change", async (e) => {
+  const file = e.target.files[0];
+  if (!file) return;
+
+  const url = URL.createObjectURL(file);
+
+  await salvarMusica(file.name, url, "https://picsum.photos/200");
+
+  carregar();
+});
+
+/* ADICIONAR */
 document.getElementById("btnAdd").onclick = async () => {
   const nome = nomeInput.value;
   const url = urlInput.value;
   const capa = capaInput.value;
 
-  if (!nome || !url || !capa) {
-    alert("Preencha tudo");
-    return;
-  }
+  if (!nome || !url || !capa) return alert("Preencha tudo");
 
   await salvarMusica(nome, url, capa);
 
@@ -28,12 +39,14 @@ document.getElementById("btnAdd").onclick = async () => {
   carregar();
 };
 
+/* LIMPAR */
 document.getElementById("btnLimpar").onclick = () => {
   nomeInput.value = "";
   urlInput.value = "";
   capaInput.value = "";
 };
 
+/* LISTAR */
 async function carregar() {
   lista.innerHTML = "";
 

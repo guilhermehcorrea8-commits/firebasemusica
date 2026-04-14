@@ -1,4 +1,8 @@
-import { listarMusicas, excluirMusica } from "../firebase/database.js";
+import {
+  listarMusicas,
+  excluirMusica,
+  editarMusica,
+} from "../firebase/database.js";
 
 const lista = document.getElementById("lista");
 const playerArea = document.getElementById("playerArea");
@@ -6,14 +10,24 @@ const playerArea = document.getElementById("playerArea");
 const audio = new Audio();
 
 let tipoAtual = null;
-/* LISTAR */
+let musicasArray = [];
+let indexAtual = 0;
+
+/* =========================
+   LISTAR MÚSICAS
+========================= */
 async function carregar() {
   lista.innerHTML = "";
 
   const dados = await listarMusicas();
 
+  musicasArray = [];
+  let i = 0;
+
   for (let id in dados) {
     const m = dados[id];
+
+    musicasArray.push({ id, ...m });
 
     const div = document.createElement("div");
     div.className = "musica";
@@ -22,15 +36,45 @@ async function carregar() {
       <img src="${m.capa}" class="thumb">
       <span>${m.nome}</span>
 
-      <button onclick="play('${m.url}', '${m.nome}', '${m.capa}', '${m.tipo}')">▶</button>
+      <button onclick="playIndex(${i})">▶</button>
+      <button onclick="editar('${id}', '${m.nome}', '${m.capa}')">✏️</button>
       <button onclick="del('${id}')">🗑</button>
     `;
 
     lista.appendChild(div);
+    i++;
   }
 }
 
-/* EXCLUIR */
+/* =========================
+   TOCAR POR INDEX
+========================= */
+window.playIndex = (i) => {
+  indexAtual = i;
+  const m = musicasArray[i];
+  play(m.url, m.nome, m.capa, m.tipo);
+};
+
+/* =========================
+   PRÓXIMA / ANTERIOR
+========================= */
+window.proxima = () => {
+  if (indexAtual < musicasArray.length - 1) {
+    indexAtual++;
+    playIndex(indexAtual);
+  }
+};
+
+window.anterior = () => {
+  if (indexAtual > 0) {
+    indexAtual--;
+    playIndex(indexAtual);
+  }
+};
+
+/* =========================
+   EXCLUIR
+========================= */
 window.del = async (id) => {
   if (confirm("Excluir música?")) {
     await excluirMusica(id);
@@ -38,9 +82,29 @@ window.del = async (id) => {
   }
 };
 
-/* PLAYER */
+/* =========================
+   EDITAR
+========================= */
+window.editar = async (id, nomeAtual, capaAtual) => {
+  const novoNome = prompt("Novo nome:", nomeAtual);
+  if (!novoNome) return;
+
+  const novaCapa = prompt("Nova capa:", capaAtual);
+  if (!novaCapa) return;
+
+  await editarMusica(id, {
+    nome: novoNome,
+    capa: novaCapa,
+  });
+
+  carregar();
+};
+
+/* =========================
+   PLAYER PRINCIPAL
+========================= */
 window.play = (url, nome, capa, tipo) => {
-  tipoAtual = tipo; // salva tipo atual
+  tipoAtual = tipo;
 
   document.getElementById("infoMusica").innerText = nome;
   document.getElementById("capaPlayer").src = capa;
@@ -50,6 +114,7 @@ window.play = (url, nome, capa, tipo) => {
   audio.pause();
   audio.src = "";
 
+  /* 🎥 YOUTUBE */
   if (tipo === "youtube") {
     const id = extrairID(url);
 
@@ -59,14 +124,22 @@ window.play = (url, nome, capa, tipo) => {
     }
 
     playerArea.innerHTML = `
-      <iframe width="100%" height="200"
-        src="https://www.youtube.com/embed/${id}?autoplay=1"
-        allow="autoplay"
-        frameborder="0"
-        allowfullscreen>
-      </iframe>
+      <div style="max-width: 400px;">
+        <iframe width="100%" height="200"
+          src="https://www.youtube.com/embed/${id}?autoplay=1"
+          frameborder="0"
+          allow="autoplay"
+          allowfullscreen>
+        </iframe>
+
+        <button onclick="abrirYoutube('${id}')" class="btn" style="margin-top:5px;">
+          🔗 Abrir no YouTube
+        </button>
+      </div>
     `;
   } else {
+
+  /* 🎵 AUDIO */
     audio.src = url;
 
     audio.play().catch(() => {
@@ -75,33 +148,48 @@ window.play = (url, nome, capa, tipo) => {
   }
 };
 
-/* EXTRAIR ID YOUTUBE */
+/* =========================
+   ABRIR YOUTUBE
+========================= */
+window.abrirYoutube = (id) => {
+  window.open(`https://www.youtube.com/watch?v=${id}`, "_blank");
+};
+
+/* =========================
+   EXTRAIR ID YOUTUBE
+========================= */
 function extrairID(url) {
   const reg = /(?:youtube\.com\/watch\?v=|youtu\.be\/)([^&]+)/;
-
   const match = url.match(reg);
   return match ? match[1] : null;
 }
 
-/* CONTROLES */
+/* =========================
+   CONTROLES
+========================= */
 document.getElementById("btnPlay").onclick = () => {
-  if (tipoAtual === "audio") {
-    audio.play();
-  }
+  if (tipoAtual === "audio") audio.play();
 };
 
 document.getElementById("btnPause").onclick = () => {
-  if (tipoAtual === "audio") {
-    audio.pause();
-  }
+  if (tipoAtual === "audio") audio.pause();
 };
 
-/* BARRA */
+/* =========================
+   BARRA DE PROGRESSO
+========================= */
 setInterval(() => {
   if (!audio.duration) return;
 
   const p = (audio.currentTime / audio.duration) * 100;
   document.getElementById("barraPlayer").style.width = p + "%";
 }, 500);
+
+/* =========================
+   AUTO PRÓXIMA
+========================= */
+audio.onended = () => {
+  proxima();
+};
 
 carregar();
