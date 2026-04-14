@@ -1,65 +1,33 @@
 import { database } from "./firebaseConfig.js";
-
 import {
   ref,
   push,
-  set,
   get,
-  remove,
-  update
+  remove
 } from "https://www.gstatic.com/firebasejs/12.11.0/firebase-database.js";
 
-/* REFERÊNCIA PRINCIPAL */
-const dbRef = ref(database, "musicas");
-
-/* =========================
-   🎵 SALVAR MÚSICA
-========================= */
+/* SALVAR */
 export async function salvarMusica(nome, url, capa) {
-  const nova = push(dbRef);
+  const tipo =
+    url.includes("youtube") || url.includes("youtu.be")
+      ? "youtube"
+      : "audio";
 
-  await set(nova, {
-    nome: nome,
-    url: url,
-    capa: capa,
-    likes: 0,
-    criadoEm: Date.now()
+  await push(ref(database, "musicas"), {
+    nome,
+    url,
+    capa,
+    tipo
   });
 }
 
-/* =========================
-   📥 LISTAR MÚSICAS
-========================= */
+/* LISTAR */
 export async function listarMusicas() {
-  const snap = await get(dbRef);
-
-  if (snap.exists()) {
-    return snap.val();
-  } else {
-    return {};
-  }
+  const snapshot = await get(ref(database, "musicas"));
+  return snapshot.val() || {};
 }
 
-/* =========================
-   🗑️ LIMPAR TODAS
-========================= */
-export async function limparMusicas() {
-  await remove(dbRef);
-}
-
-/* =========================
-   ❤️ CURTIR MÚSICA
-========================= */
-export async function curtirMusica(id) {
-  const musicaRef = ref(database, "musicas/" + id);
-
-  const snap = await get(musicaRef);
-
-  if (snap.exists()) {
-    const atual = snap.val().likes || 0;
-
-    await update(musicaRef, {
-      likes: atual + 1
-    });
-  }
+/* EXCLUIR */
+export async function excluirMusica(id) {
+  await remove(ref(database, "musicas/" + id));
 }

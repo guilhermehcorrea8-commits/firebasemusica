@@ -8,10 +8,7 @@ import {
 const email = document.getElementById("email");
 const senha = document.getElementById("senha");
 
-const btnLogin = document.getElementById("btnLogin");
-const btnRegister = document.getElementById("btnRegister");
-
-btnLogin.onclick = async () => {
+document.getElementById("btnLogin").onclick = async () => {
   try {
     await signInWithEmailAndPassword(auth, email.value, senha.value);
   } catch (e) {
@@ -19,7 +16,7 @@ btnLogin.onclick = async () => {
   }
 };
 
-btnRegister.onclick = async () => {
+document.getElementById("btnRegister").onclick = async () => {
   try {
     await createUserWithEmailAndPassword(auth, email.value, senha.value);
   } catch (e) {

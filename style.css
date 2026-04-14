@@ -5,64 +5,67 @@ body {
   color: white;
 }
 
-/* TITULO */
-h1 {
-  text-align: center;
-  padding: 20px;
+.center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
 }
 
-/* FORM */
-.form {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
+.card {
+  background: #181818;
   padding: 20px;
+  border-radius: 15px;
+  text-align: center;
 }
 
 input {
+  display: block;
+  margin: 10px auto;
   padding: 10px;
-  border-radius: 8px;
+  width: 250px;
+  border-radius: 10px;
   border: none;
 }
 
-/* BOTÕES */
-button, .btn {
+.btn {
   background: #1db954;
-  border: none;
   padding: 10px;
-  color: white;
   border-radius: 20px;
+  border: none;
+  color: white;
   cursor: pointer;
-  text-align: center;
-  text-decoration: none;
 }
 
-button:hover, .btn:hover {
-  background: #1ed760;
+.btn-outline {
+  background: transparent;
+  border: 2px solid #1db954;
+  color: #1db954;
 }
 
-/* LISTA */
-#lista {
-  padding: 20px;
+.btn-danger {
+  background: red;
+  border-radius: 20px;
+  padding: 10px;
+  border: none;
 }
 
 .musica {
   display: flex;
   align-items: center;
   gap: 10px;
-  background: rgba(255,255,255,0.05);
+  background: rgba(255,255,255,0.1);
   padding: 10px;
-  margin-bottom: 10px;
+  margin: 10px;
   border-radius: 10px;
 }
 
 .thumb {
   width: 50px;
   height: 50px;
-  border-radius: 8px;
+  border-radius: 10px;
 }
 
-/* PLAYER */
 #playerBox {
   position: fixed;
   bottom: 0;
@@ -71,12 +74,6 @@ button:hover, .btn:hover {
   padding: 10px;
 }
 
-#capaPlayer {
-  width: 60px;
-  height: 60px;
-}
-
-/* BARRA */
 #barra {
   height: 5px;
   background: #333;

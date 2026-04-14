@@ -1,27 +1,40 @@
 const audio = new Audio();
 
-export function tocar(url, nome) {
+/* 🎵 TOCAR MÚSICA */
+export function tocar(url, nome, capa) {
   audio.src = url;
-  audio.play();
+
+  audio.play().catch(() => {
+    alert("Clique em play para iniciar");
+  });
 
   document.getElementById("infoMusica").innerText = nome;
+
+  if (capa) {
+    document.getElementById("capaPlayer").src = capa;
+  }
 }
 
+/* ▶ PLAY */
 export function play() {
   audio.play();
 }
 
+/* ⏸ PAUSE */
 export function pause() {
   audio.pause();
 }
 
-export function barra() {
+/* 📊 BARRA DE PROGRESSO */
+export function iniciarBarra() {
   const barra = document.getElementById("barraPlayer");
 
   function atualizar() {
     if (audio.duration) {
-      barra.style.width = (audio.currentTime / audio.duration) * 100 + "%";
+      const porcentagem = (audio.currentTime / audio.duration) * 100;
+      barra.style.width = porcentagem + "%";
     }
+
     requestAnimationFrame(atualizar);
   }
 
