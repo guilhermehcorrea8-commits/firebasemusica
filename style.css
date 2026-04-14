@@ -1,10 +1,11 @@
 body {
   margin: 0;
   font-family: Arial;
-  background: linear-gradient(90deg, #1db954, #121212);
+  background: linear-gradient(180deg, #1db954, #121212);
   color: white;
 }
 
+/* CENTRAL */
 .center {
   display: flex;
   justify-content: center;
@@ -12,23 +13,30 @@ body {
   height: 100vh;
 }
 
+/* CARDS */
 .card,
 .box {
   background: #181818;
-  padding: 20px;
+  padding: 35px;
   border-radius: 15px;
   text-align: center;
+  width: 90%;
+  max-width: 450px;
+  align-items: center;
+  margin-left: 30%;
 }
 
+/* INPUT */
 input {
   display: block;
   margin: 10px auto;
-  padding: 10px;
-  width: 250px;
+  padding: 12px;
+  width: 100%;
   border-radius: 10px;
   border: none;
 }
 
+/* BOTÕES */
 button {
   cursor: pointer;
 }
@@ -40,10 +48,9 @@ button:hover {
 .btn {
   background: #1db954;
   border: none;
-  padding: 10px;
+  padding: 10px 15px;
   border-radius: 20px;
   color: white;
-  cursor: pointer;
 }
 
 .btn:hover {
@@ -63,6 +70,11 @@ button:hover {
   border: none;
 }
 
+/* LISTA */
+#lista {
+  padding-bottom: 140px; /* evita player cobrir lista */
+}
+
 .musica {
   display: flex;
   align-items: center;
@@ -77,8 +89,10 @@ button:hover {
   width: 50px;
   height: 50px;
   border-radius: 10px;
+  object-fit: cover;
 }
 
+/* PLAYER */
 #playerBox {
   position: fixed;
   bottom: 0;
@@ -86,29 +100,93 @@ button:hover {
   background: #181818;
   padding: 10px;
   z-index: 999;
+  border-top: 1px solid #333;
 }
 
-#playerArea iframe {
-  width: 300px;
-  height: 170px;
+/* TOPO PLAYER */
+.player-top {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+#capaPlayer {
+  width: 50px;
+  height: 50px;
   border-radius: 10px;
+  object-fit: cover;
 }
 
-#lista {
-  padding-bottom: 200px;
+#infoMusica {
+  font-size: 14px;
+}
+#playerArea:empty {
+  display: none;
+}
+
+/* CONTROLES */
+.controles {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  margin-top: 10px;
 }
 
 .controles button {
-  margin: 5px;
+  background: #1db954;
+  border: none;
+  padding: 10px;
+  border-radius: 50%;
+  color: white;
+  font-size: 16px;
 }
 
+/* YOUTUBE RESPONSIVO (🔥 CORREÇÃO DO ESPAÇO GRANDE) */
+#playerArea iframe {
+  width: 100%;
+  height: 180px;
+  max-height: 180px;
+  border-radius: 10px;
+  margin-top: 10px;
+}
+
+/* BARRA */
 #barra {
   height: 5px;
   background: #333;
+  margin-top: 10px;
+  border-radius: 5px;
 }
 
 #barraPlayer {
   height: 100%;
   width: 0%;
   background: #1db954;
+  border-radius: 5px;
+}
+
+/* MOBILE */
+@media (max-width: 600px) {
+  h1 {
+    font-size: 22px;
+    text-align: center;
+  }
+
+  .musica {
+    justify-content: space-between;
+  }
+
+  .musica span {
+    flex: 1;
+    font-size: 14px;
+  }
+
+  .musica button {
+    font-size: 12px;
+    padding: 6px;
+  }
+
+  #playerArea iframe {
+    height: 160px;
+  }
 }
