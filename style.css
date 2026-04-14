@@ -25,7 +25,15 @@ body {
   align-items: center;
   margin-left: 30%;
 }
-
+.aviso-local {
+  background: #ff9800;
+  color: #121212;
+  padding: 10px;
+  margin: 10px;
+  border-radius: 10px;
+  font-size: 14px;
+  text-align: center;
+}
 /* INPUT */
 input {
   display: block;
